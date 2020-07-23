@@ -85,7 +85,7 @@ const constructLocations = (locations, container) => {
 
             const textValue = document.createElement('div')
             textValue.classList.add('measurement-value')
-            textValue.textContent = `${measurement.value} `
+            textValue.textContent = `${Number(measurement.value).toFixed(2)} `
             const textUnit = document.createElement('span')
             textUnit.textContent = measurement.unit
             textValue.appendChild(textUnit)
