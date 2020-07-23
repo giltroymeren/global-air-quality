@@ -56,6 +56,13 @@ footer {
     background: #c7b198;
 }
 
+#locations .location .location-name {
+    font-weight: 700;
+}
+#locations .location .location-name span {
+    font-weight: normal;
+}
+
 #locations .location ul div.measurement-source {
     padding: 10px 15px;
     border-bottom: 1px solid #c7b198;
@@ -68,7 +75,7 @@ footer {
 
 #locations .location ul li .measurement-details {
     display: grid;
-    grid-template-columns: 9fr 3fr;
+    grid-template-columns: 8fr 4fr;
 }
 
 #locations .location ul li .measurement-value {

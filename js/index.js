@@ -58,8 +58,12 @@ const constructLocations = (locations, container) => {
         section.setAttribute('data-country', item.country)
         section.setAttribute('data-city', item.city)
 
-        const name = document.createElement('p')
-        name.textContent = `${item.location}, ${item.city}`
+        const nameContainer = document.createElement('p')
+        nameContainer.classList.add('location-name')
+        nameContainer.textContent = `${item.city}, ${item.country} `
+        const nameSpecific = document.createElement('span')
+        nameSpecific.textContent = `(${item.location})`
+        nameContainer.appendChild(nameSpecific)
 
         const measurementsContainer = document.createElement('ul')
         item.measurements.map((measurement, index) => {
@@ -93,7 +97,7 @@ const constructLocations = (locations, container) => {
             measurementsContainer.appendChild(element)
         })
 
-        section.appendChild(name)
+        section.appendChild(nameContainer)
         section.appendChild(measurementsContainer)
 
         container.append(section)
