@@ -20,9 +20,6 @@ const getData = async (url, handleSuccess, filterField = '') => {
         .catch(error => console.error(error.message))
 }
 
-// getData('/countries', setFilterToField, 'country')
-// getData('/cities', setFilterToField, 'city')
-
 const setLatestData = data => {
     const locations = data.results
     const container = document.getElementById('locations')
@@ -64,5 +61,13 @@ const setLatestData = data => {
         container.append(section)
     })
 }
+
+getData('/countries', setFilterToField, 'country')
+
+const countryField = document.getElementById('country')
+countryField.addEventListener('change', event => {
+    const country = event.target.value
+    getData(`/cities?country=${country}`, setFilterToField, 'city')
+})
 
 getData('/latest', setLatestData)
