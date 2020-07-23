@@ -4,6 +4,10 @@ const setFilterToField = (data, filterField) => {
     const filters = data.results
     const field = document.getElementById(filterField)
 
+    if (filterField === 'city') {
+        field.querySelectorAll('*').forEach(child => field.removeChild(child))
+    }
+
     filters.map(filter => {
         const option = document.createElement('option')
         option.textContent = filter.name || filter.code
@@ -67,6 +71,7 @@ getData('/countries', setFilterToField, 'country')
 const countryField = document.getElementById('country')
 countryField.addEventListener('change', event => {
     const country = event.target.value
+    console.log(country)
     getData(`/cities?country=${country}`, setFilterToField, 'city')
 })
 
