@@ -62,17 +62,34 @@ const constructLocations = (locations, container) => {
         name.textContent = `${item.location}, ${item.city}`
 
         const measurementsContainer = document.createElement('ul')
-        item.measurements.map(measurement => {
+        item.measurements.map((measurement, index) => {
             const element = document.createElement('li')
 
-            const textValue = document.createElement('p')
-            textValue.textContent = `${measurement.parameter}: ${measurement.value}`
+            if (index === 0) {
+                const textSource = document.createElement('div')
+                textSource.classList.add('measurement-source')
+                textSource.textContent = measurement.sourceName
+                measurementsContainer.appendChild(textSource)
+            }
 
-            const textSource = document.createElement('div')
-            textSource.textContent = measurement.sourceName
+            const textContainer = document.createElement('div')
+            textContainer.classList.add('measurement-details')
 
-            element.appendChild(textValue)
-            element.appendChild(textSource)
+            const textParam = document.createElement('div')
+            textParam.classList.add('measurement-param')
+            textParam.textContent = measurement.parameter
+
+            const textValue = document.createElement('div')
+            textValue.classList.add('measurement-value')
+            textValue.textContent = `${measurement.value} `
+            const textUnit = document.createElement('span')
+            textUnit.textContent = measurement.unit
+            textValue.appendChild(textUnit)
+
+            textContainer.appendChild(textParam)
+            textContainer.appendChild(textValue)
+
+            element.appendChild(textContainer)
             measurementsContainer.appendChild(element)
         })
 

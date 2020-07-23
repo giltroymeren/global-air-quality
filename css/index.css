@@ -48,8 +48,7 @@ footer {
     border: 1px solid #c7b198;
 }
 
-#locations .location > p,
-#locations .location ul {
+#locations .location > p {
     padding: 10px 15px;
 }
 
@@ -57,7 +56,26 @@ footer {
     background: #c7b198;
 }
 
+#locations .location ul div.measurement-source {
+    padding: 10px 15px;
+    border-bottom: 1px solid #c7b198;
+    font-size: 0.75em;
+}
+
 #locations .location ul li {
+    padding: 7.5px 15px;
+}
+
+#locations .location ul li .measurement-details {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 9fr 3fr;
+}
+
+#locations .location ul li .measurement-value {
+    font-weight: 700;
+    text-align: right;
+}
+
+#locations .location ul li .measurement-value span {
+    font-weight: normal;
 }
