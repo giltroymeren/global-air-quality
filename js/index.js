@@ -5,13 +5,16 @@ const setFilterToField = (data, filterField) => {
     const field = document.getElementById(filterField)
 
     if (filterField === 'city') {
-        field.querySelectorAll('*').forEach(child => field.removeChild(child))
+        field.querySelectorAll('*').forEach(child => {
+            if (!child.value) return
+            field.removeChild(child)
+        })
     }
 
     filters.map(filter => {
         const option = document.createElement('option')
         option.textContent = filter.name || filter.code
-        option.value = filter.code
+        option.value = (filterField === 'country') ? filter.code : filter.city
 
         field.appendChild(option)
     })
@@ -71,8 +74,17 @@ getData('/countries', setFilterToField, 'country')
 const countryField = document.getElementById('country')
 countryField.addEventListener('change', event => {
     const country = event.target.value
-    console.log(country)
     getData(`/cities?country=${country}`, setFilterToField, 'city')
+})
+
+const cityField = document.getElementById('city')
+cityField.addEventListener('change', event => {
+    const city = event.target.value
+    const country = document.getElementById('country').value
+
+    getData(`/latest?country=${country}&city=${city}`, data => {
+        console.log(data)
+    })
 })
 
 getData('/latest', setLatestData)
