@@ -3,10 +3,11 @@ const API_BASE_URL = `https://api.openaq.org/v1`
 let state = {}
 
 const setCountryField = (data) => {
-    const countries = data.results
+    state.countries = []
+    state.countries.push(...data)
     const field = document.getElementById('country')
 
-    countries.map(country => {
+    state.countries.map(country => {
         const option = document.createElement('option')
         option.textContent = country.name || country.code
         option.value = country.code
@@ -16,7 +17,8 @@ const setCountryField = (data) => {
 }
 
 const setCityField = (data) => {
-    const cities = data.results
+    state.cities = []
+    state.cities.push(...data)
     const field = document.getElementById('city')
 
     field.querySelectorAll('*').forEach(child => {
@@ -24,7 +26,7 @@ const setCityField = (data) => {
         field.removeChild(child)
     })
 
-    cities.map(city => {
+    state.cities.map(city => {
         const option = document.createElement('option')
         option.textContent = city.name || city.code
         option.value = city.city
@@ -33,10 +35,10 @@ const setCityField = (data) => {
     })
 }
 
-const getData = async (url, handleSuccess, filterField = '') => {
+const getData = async (url, handleSuccess) => {
     await fetch(`${API_BASE_URL}${url}`)
         .then(response => response.json())
-        .then(data => handleSuccess(data, filterField))
+        .then(data => handleSuccess(data.results))
         .catch(error => console.error(error.message))
 }
 
@@ -72,12 +74,13 @@ const constructLocations = (locations, container) => {
     })
 }
 
-const setLatestData = data => {
-    const locations = data.results
+const setLocations = data => {
+    state.locations = []
+    state.locations.push(...data)
     const container = document.getElementById('locations')
-
     container.innerHTML = ''
-    constructLocations(locations, container)
+
+    constructLocations(state.locations, container)
 }
 
 const countryField = document.getElementById('country')
@@ -93,7 +96,8 @@ countryField.addEventListener('change', event => {
             if (!child.value) return
             cityField.removeChild(child)
         })
-        getData('/latest', setLatestData)
+
+        prepareLocations()
     }
 })
 
@@ -103,7 +107,7 @@ cityField.addEventListener('change', event => {
     const country = document.getElementById('country').value
 
     if (country === '' && city === '') {
-        getData('/latest', setLatestData)
+        prepareLocations()
     } else {
         getData(`/latest?country=${country}&city=${city}`, data => {
             const container = document.getElementById('locations')
@@ -111,12 +115,20 @@ cityField.addEventListener('change', event => {
                 if (container.contains(child))
                     container.removeChild(child)
             })
-            constructLocations(data.results, container)
+            constructLocations(data, container)
         })
     }
 })
 
+const prepareLocations = () => {
+    if (state.locations.length) {
+        setLocations(state.locations)
+    } else {
+        getData('/latest', setLocations)
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     getData('/countries', setCountryField, 'country')
-    getData('/latest', setLatestData)
+    getData('/latest', setLocations)
 })
