@@ -6,18 +6,32 @@ const setCountriesToField = data => {
 
     countries.map(country => {
         const option = document.createElement('option')
-        option.textContent = country.name ? country.name : country.code
+        option.textContent = country.name || country.code
         option.value = country.code
 
         field.appendChild(option)
     })
 }
 
-const getCountries = async () => {
-    await fetch(`${API_BASE_URL}/countries`)
+const setCitiesToField = data => {
+    const countries = data.results
+    const field = document.getElementById('city')
+
+    countries.map(city => {
+        const option = document.createElement('option')
+        option.textContent = city.name
+        option.value = city.code
+
+        field.appendChild(option)
+    })
+}
+
+const getData = async (url, handleSuccess) => {
+    await fetch(`${API_BASE_URL}${url}`)
         .then(response => response.json())
-        .then(data => setCountriesToField(data))
+        .then(data => handleSuccess(data))
         .catch(error => console.error(error.message))
 }
 
-getCountries()
+getData('/countries', setCountriesToField)
+getData('/cities', setCitiesToField)
