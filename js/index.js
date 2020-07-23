@@ -27,10 +27,7 @@ const getData = async (url, handleSuccess, filterField = '') => {
         .catch(error => console.error(error.message))
 }
 
-const setLatestData = data => {
-    const locations = data.results
-    const container = document.getElementById('locations')
-
+const constructLocations = (locations, container) => {
     locations.map(item => {
         const section = document.createElement('div')
         section.classList.add('location')
@@ -69,6 +66,13 @@ const setLatestData = data => {
     })
 }
 
+const setLatestData = data => {
+    const locations = data.results
+    const container = document.getElementById('locations')
+
+    constructLocations(locations, container)
+}
+
 getData('/countries', setFilterToField, 'country')
 
 const countryField = document.getElementById('country')
@@ -83,7 +87,12 @@ cityField.addEventListener('change', event => {
     const country = document.getElementById('country').value
 
     getData(`/latest?country=${country}&city=${city}`, data => {
-        console.log(data)
+        const container = document.getElementById('locations')
+        container.querySelectorAll('*').forEach(child => {
+            if (container.contains(child))
+                container.removeChild(child)
+        })
+        constructLocations(data.results, container)
     })
 })
 
