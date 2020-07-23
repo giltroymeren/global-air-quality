@@ -1,20 +1,33 @@
 const API_BASE_URL = `https://api.openaq.org/v1`
 
-const setFilterToField = (data, filterField) => {
-    const filters = data.results
-    const field = document.getElementById(filterField)
+let state = {}
 
-    if (filterField === 'city') {
-        field.querySelectorAll('*').forEach(child => {
-            if (!child.value) return
-            field.removeChild(child)
-        })
-    }
+const setCountryField = (data) => {
+    const countries = data.results
+    const field = document.getElementById('country')
 
-    filters.map(filter => {
+    countries.map(country => {
         const option = document.createElement('option')
-        option.textContent = filter.name || filter.code
-        option.value = (filterField === 'country') ? filter.code : filter.city
+        option.textContent = country.name || country.code
+        option.value = country.code
+
+        field.appendChild(option)
+    })
+}
+
+const setCityField = (data) => {
+    const cities = data.results
+    const field = document.getElementById('city')
+
+    field.querySelectorAll('*').forEach(child => {
+        if (!child.value) return
+        field.removeChild(child)
+    })
+
+    cities.map(city => {
+        const option = document.createElement('option')
+        option.textContent = city.name || city.code
+        option.value = city.city
 
         field.appendChild(option)
     })
@@ -72,7 +85,7 @@ countryField.addEventListener('change', event => {
     const country = event.target.value
 
     if (country !== '') {
-        getData(`/cities?country=${country}`, setFilterToField, 'city')
+        getData(`/cities?country=${country}`, setCityField)
     } else {
         const cityField = document.getElementById('city')
         cityField.selectedIndex = 0
@@ -104,6 +117,6 @@ cityField.addEventListener('change', event => {
 })
 
 window.addEventListener('DOMContentLoaded', () => {
-    getData('/countries', setFilterToField, 'country')
+    getData('/countries', setCountryField, 'country')
     getData('/latest', setLatestData)
 })
