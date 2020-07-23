@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Global Weather App</title>
+    <title>Global Air Quality</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
-    <h1>Global Weather App</h1>
+    <header>
+        <h1>Global Air Quality</h1>
+    </header>
+
+    <div class="content">
+        <div class="selectors">
+            <div class="field-row">
+                <label for="country">Country</label>
+                <select id="country" name="country">
+                    <option>Please select a country</option>
+                </select>
+            </div>
+            <div class="field-row">
+                <label for="city">City</label>
+                <select id="city" name="city">
+                    <option>Please select a city</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="cities">
+        </div>
+    </div>
+
+    <footer>
+        <p>Powered by <a href="https://openaq.org/">OpenAQ</a></p>
+    </footer>
+
     <script src="js/index.js"></script>
   </body>
 </html>
