@@ -2,10 +2,20 @@ const API_BASE_URL = `https://api.openaq.org/v1`
 
 let state = {}
 
+const getSortedData = (data) => {
+    return data.sort((a, b) => {
+        const newA = a.name || a.code || a.location
+        const newB = b.name || b.code || b.location
+        return (newA > newB) ? 1 : -1
+    })
+}
+
 const setCountryField = (data) => {
     state.countries = []
-    state.countries.push(...data)
     const field = document.getElementById('country')
+
+    const sortedCountries = getSortedData(data.slice())
+    state.countries.push(...sortedCountries)
 
     state.countries.map(country => {
         const option = document.createElement('option')
@@ -28,10 +38,12 @@ const cleanCityField = () => {
 
 const setCityField = (data) => {
     state.cities = []
-    state.cities.push(...data)
     const field = document.getElementById('city')
 
     cleanCityField()
+
+    const sortedCities = getSortedData(data.slice())
+    state.cities.push(...sortedCities)
 
     state.cities.map(city => {
         const option = document.createElement('option')
@@ -106,9 +118,12 @@ const constructLocations = (locations, container) => {
 
 const setLocations = data => {
     state.locations = []
-    state.locations.push(...data)
     const container = document.getElementById('locations')
     container.innerHTML = ''
+
+    const sortedLocations = getSortedData(data.slice())
+    state.locations.push(...sortedLocations)
+    console.log(sortedLocations)
 
     constructLocations(state.locations, container)
 }
