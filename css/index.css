@@ -50,6 +50,7 @@ footer {
 }
 
 #locations .location > p {
+    cursor: pointer;
     padding: 10px 15px;
 }
 
