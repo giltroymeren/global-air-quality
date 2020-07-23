@@ -83,8 +83,7 @@ const setLocations = data => {
     constructLocations(state.locations, container)
 }
 
-const countryField = document.getElementById('country')
-countryField.addEventListener('change', event => {
+document.getElementById('country').addEventListener('change', event => {
     const country = event.target.value
 
     if (country !== '') {
@@ -101,8 +100,7 @@ countryField.addEventListener('change', event => {
     }
 })
 
-const cityField = document.getElementById('city')
-cityField.addEventListener('change', event => {
+document.getElementById('city').addEventListener('change', event => {
     const city = event.target.value
     const country = document.getElementById('country').value
 
