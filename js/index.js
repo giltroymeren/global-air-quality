@@ -34,7 +34,7 @@ const setLatestData = data => {
         section.setAttribute('data-city', item.city)
 
         const name = document.createElement('p')
-        name.textContent = item.location
+        name.textContent = `${item.location}, ${item.city}`
 
         const measurementsContainer = document.createElement('ul')
         item.measurements.map(measurement => {
