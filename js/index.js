@@ -100,24 +100,6 @@ document.getElementById('country').addEventListener('change', event => {
     }
 })
 
-document.getElementById('city').addEventListener('change', event => {
-    const city = event.target.value
-    const country = document.getElementById('country').value
-
-    if (country === '' && city === '') {
-        prepareLocations()
-    } else {
-        getData(`/latest?country=${country}&city=${city}`, data => {
-            const container = document.getElementById('locations')
-            container.querySelectorAll('*').forEach(child => {
-                if (container.contains(child))
-                    container.removeChild(child)
-            })
-            constructLocations(data, container)
-        })
-    }
-})
-
 const prepareLocations = () => {
     if (state.locations.length) {
         setLocations(state.locations)
@@ -125,6 +107,28 @@ const prepareLocations = () => {
         getData('/latest', setLocations)
     }
 }
+
+const setResultLocations = (country, city) => {
+    getData(`/latest?country=${country}&city=${city}`, data => {
+        const container = document.getElementById('locations')
+        container.querySelectorAll('*').forEach(child => {
+            if (container.contains(child))
+                container.removeChild(child)
+        })
+        constructLocations(data, container)
+    })
+}
+
+document.getElementById('city').addEventListener('change', event => {
+    const city = event.target.value
+    const country = document.getElementById('country').value
+
+    if (country === '' && city === '') {
+        prepareLocations()
+    } else {
+        setResultLocations(country, city)
+    }
+})
 
 window.addEventListener('DOMContentLoaded', () => {
     getData('/countries', setCountryField, 'country')
