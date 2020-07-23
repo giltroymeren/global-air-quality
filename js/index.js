@@ -73,8 +73,6 @@ const setLatestData = data => {
     constructLocations(locations, container)
 }
 
-getData('/countries', setFilterToField, 'country')
-
 const countryField = document.getElementById('country')
 countryField.addEventListener('change', event => {
     const country = event.target.value
@@ -96,4 +94,7 @@ cityField.addEventListener('change', event => {
     })
 })
 
-getData('/latest', setLatestData)
+window.addEventListener('DOMContentLoaded', () => {
+    getData('/countries', setFilterToField, 'country')
+    getData('/latest', setLatestData)
+})
