@@ -40,22 +40,15 @@ const constructLocations = (locations, container) => {
         const measurementsContainer = document.createElement('ul')
         item.measurements.map(measurement => {
             const element = document.createElement('li')
-            const text = document.createElement('p')
 
-            const textValue = document.createElement('span')
-            textValue.textContent = measurement.value
+            const textValue = document.createElement('p')
+            textValue.textContent = `${measurement.parameter}: ${measurement.value}`
 
-            const textParam = document.createElement('span')
-            textParam.textContent = measurement.parameter
-
-            const textSource = document.createElement('span')
+            const textSource = document.createElement('div')
             textSource.textContent = measurement.sourceName
 
-            text.appendChild(textValue)
-            text.appendChild(textParam)
-            text.appendChild(textSource)
-
-            element.appendChild(text)
+            element.appendChild(textValue)
+            element.appendChild(textSource)
             measurementsContainer.appendChild(element)
         })
 

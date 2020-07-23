@@ -1,10 +1,41 @@
+/*
+ * #f0ece3 - light
+ * #dfd3c3 - medium
+ * #c7b198 - dark
+ * #596e79 - complement
+ */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Roboto:wght@300;400;500&display=swap');
+
 body {
+    background: #f0ece3;
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+}
+
+header, footer {
+    padding: 20px;
+}
+
+header {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: #dfd3c3;
+}
+
+footer {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background: #596e79;
+    color: #f0ece3;
+}
+
+.content .selectors {
+    padding: 20px;
+    background: #596e79;
+    color: #f0ece3;
 }
 
 #locations {
@@ -13,7 +44,20 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #locations .location {
-    margin: 5px;
+    margin: 10px;
+    border: 1px solid #c7b198;
+}
+
+#locations .location > p,
+#locations .location ul {
     padding: 10px 15px;
-    border: 1px solid #CECECE;
+}
+
+#locations .location > p {
+    background: #c7b198;
+}
+
+#locations .location ul li {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
