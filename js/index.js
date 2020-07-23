@@ -16,15 +16,22 @@ const setCountryField = (data) => {
     })
 }
 
-const setCityField = (data) => {
-    state.cities = []
-    state.cities.push(...data)
+const cleanCityField = () => {
     const field = document.getElementById('city')
+    field.selectedIndex = 0
 
     field.querySelectorAll('*').forEach(child => {
         if (!child.value) return
         field.removeChild(child)
     })
+}
+
+const setCityField = (data) => {
+    state.cities = []
+    state.cities.push(...data)
+    const field = document.getElementById('city')
+
+    cleanCityField()
 
     state.cities.map(city => {
         const option = document.createElement('option')
@@ -33,6 +40,8 @@ const setCityField = (data) => {
 
         field.appendChild(option)
     })
+
+    field.removeAttribute('disabled')
 }
 
 const getData = async (url, handleSuccess) => {
@@ -90,14 +99,11 @@ document.getElementById('country').addEventListener('change', event => {
         getData(`/cities?country=${country}`, setCityField)
     } else {
         const cityField = document.getElementById('city')
-        cityField.selectedIndex = 0
-        cityField.querySelectorAll('*').forEach(child => {
-            if (!child.value) return
-            cityField.removeChild(child)
-        })
-
+        cleanCityField()
         prepareLocations()
     }
+
+    document.getElementById('city').setAttribute('disabled', true)
 })
 
 const prepareLocations = () => {
