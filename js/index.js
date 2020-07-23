@@ -63,13 +63,25 @@ const setLatestData = data => {
     const locations = data.results
     const container = document.getElementById('locations')
 
+    container.innerHTML = ''
     constructLocations(locations, container)
 }
 
 const countryField = document.getElementById('country')
 countryField.addEventListener('change', event => {
     const country = event.target.value
-    getData(`/cities?country=${country}`, setFilterToField, 'city')
+
+    if (country !== '') {
+        getData(`/cities?country=${country}`, setFilterToField, 'city')
+    } else {
+        const cityField = document.getElementById('city')
+        cityField.selectedIndex = 0
+        cityField.querySelectorAll('*').forEach(child => {
+            if (!child.value) return
+            cityField.removeChild(child)
+        })
+        getData('/latest', setLatestData)
+    }
 })
 
 const cityField = document.getElementById('city')
@@ -77,14 +89,18 @@ cityField.addEventListener('change', event => {
     const city = event.target.value
     const country = document.getElementById('country').value
 
-    getData(`/latest?country=${country}&city=${city}`, data => {
-        const container = document.getElementById('locations')
-        container.querySelectorAll('*').forEach(child => {
-            if (container.contains(child))
-                container.removeChild(child)
+    if (country === '' && city === '') {
+        getData('/latest', setLatestData)
+    } else {
+        getData(`/latest?country=${country}&city=${city}`, data => {
+            const container = document.getElementById('locations')
+            container.querySelectorAll('*').forEach(child => {
+                if (container.contains(child))
+                    container.removeChild(child)
+            })
+            constructLocations(data.results, container)
         })
-        constructLocations(data.results, container)
-    })
+    }
 })
 
 window.addEventListener('DOMContentLoaded', () => {
