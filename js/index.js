@@ -77,6 +77,11 @@ const constructLocations = (locations, container) => {
         nameSpecific.textContent = `(${item.location})`
         nameContainer.appendChild(nameSpecific)
 
+        nameContainer.addEventListener('click', event => {
+            const sibling = event.currentTarget.nextElementSibling
+            sibling.classList.toggle('open')
+        })
+
         const measurementsContainer = document.createElement('ul')
         item.measurements.map((measurement, index) => {
             const element = document.createElement('li')
@@ -123,7 +128,6 @@ const setLocations = data => {
 
     const sortedLocations = getSortedData(data.slice())
     state.locations.push(...sortedLocations)
-    console.log(sortedLocations)
 
     constructLocations(state.locations, container)
 }
